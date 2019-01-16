@@ -1,0 +1,180 @@
+ Integer[] tutulanlar;
+    int bilgisayar=1,insan,sira=0;
+    DefaultListModel lmb=new DefaultListModel();
+    DefaultListModel lmi=new DefaultListModel();
+    void baslangic()
+    {
+        tutulanlar=new Integer[100];
+        lmb.removeAllElements();
+        lmi.removeAllElements();
+        btnoyunubaslat.setEnabled(true);
+        btnonayla.setEnabled(false);
+        txtinsan.setEditable(false);
+        this.setResizable(false);
+        lmb.addElement("Bilgisayar");        
+        lmi.addElement("İnsan");
+        listbilgisayar.setModel(lmb);
+        listinsan.setModel(lmi);
+    }
+    
+    --------------------------------------------------------------
+    public  int sayiVarMi(int sayi)
+    {
+        int varMi=0;
+        for (int i = 1; i < 101; i++)
+        {
+            if((i%sayi==0 || sayi%i==0)&&(Arrays.asList(tutulanlar).indexOf(i)==-1))
+            {
+                varMi++;
+                
+            }           
+        }
+        return varMi;
+        
+    }
+    ----------------------------------------------------------
+    public void bilgisayarSayiTutsun()
+    {
+        if(sayiVarMi(insan)==0)
+        {  
+            JOptionPane.showMessageDialog(this, "Tebrikler oyunu sen kazandın:");
+            btnoyunubaslat.setEnabled(true);
+            btnoyunubaslat.setText("tekrar oyna");
+            return ;
+        }
+        if(sayiVarMi(insan)>1)
+        {
+            //1 den arklı bir sayı tut
+            while(true)
+            {
+                Random r=new Random();
+                int i= bilgisayar=r.nextInt(99)+2;
+                if((i%insan==0 || insan%i==0)&&(Arrays.asList(tutulanlar).indexOf(i)==-1))
+                {
+                    bilgisayar=i;
+                    tutulanlar[sira]=bilgisayar;
+                    lmb.addElement(bilgisayar);
+                    sira++; 
+                    if(sayiVarMi(bilgisayar)==0)
+                    {  
+                        JOptionPane.showMessageDialog(this, bilgisayar+" Sayısını tutarak Oyunu ben kazandım:");
+                        btnoyunubaslat.setEnabled(true);
+                        btnoyunubaslat.setText("tekrar oyna");                   
+                        return ;
+                    }
+                    else
+                    {
+                     //   JOptionPane.showMessageDialog(this, bilgisayar+" Sayısını tuttum sıra sende:");
+                    }
+                    return;
+                }
+            }
+        }
+        else
+        {
+            bilgisayar=1;
+            tutulanlar[sira]=bilgisayar;
+            lmb.addElement(bilgisayar);
+            sira++; 
+            JOptionPane.showMessageDialog(this, bilgisayar+" Sayısını tuttum sıra sende:");              
+            
+            
+        }
+       
+}
+-------------------------------------------------------------------------------------------------
+private void btnonaylaActionPerformed(java.awt.event.ActionEvent evt)                                          
+    {                                              
+        // TODO add your handling code here:
+        try
+        {
+            insan=Integer.parseInt(txtinsan.getText().trim()); 
+            if(sayiVarMi(bilgisayar)>1 && insan==1&&(Arrays.asList(tutulanlar).indexOf(1)==-1))
+            {
+                JOptionPane.showMessageDialog(this, "1 sayısını tutmak için daha erken");
+                return;
+            }
+            if((bilgisayar%insan==0 || insan%bilgisayar==0)&&(Arrays.asList(tutulanlar).indexOf(insan)==-1)&&(insan>0)&&(insan<101))
+            {
+                tutulanlar[sira]=insan;
+                lmi.addElement(insan);
+                sira++;  
+                txtinsan.setText("");
+                bilgisayarSayiTutsun();
+                return;
+                
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "lütfen kurallara uygun sayılar giriniz:");
+            }
+               
+        }
+        catch(Exception hata)
+        {
+            JOptionPane.showMessageDialog(this, "lütfen sadece sayı giriniz:");
+            return;
+        }
+        
+       
+    }   
+    --------------------------------------------------------------------------------------------
+     private void btnoyunubaslatActionPerformed(java.awt.event.ActionEvent evt)                                               
+    {                                                   
+        // TODO add your handling code here:
+         baslangic();
+        Random r=new Random();
+        while(bilgisayar%2!=0)
+        {
+            bilgisayar=r.nextInt(100)+1;
+        }
+        lmb.addElement(bilgisayar);
+        tutulanlar[sira]=bilgisayar;
+        sira++;
+        btnoyunubaslat.setEnabled(false);
+        btnonayla.setEnabled(true);
+        txtinsan.setEditable(true);
+        JOptionPane.showMessageDialog(this, bilgisayar+" Sayısını tuttum sıra sende:");
+        
+    }   
+    --------------------------------------------------------------------------------------------
+     private void txtinsanKeyTyped(java.awt.event.KeyEvent evt)                                  
+    {                                      
+        // TODO add your handling code here:
+        int c=evt.getKeyCode();
+        if(c==KeyEvent.VK_ENTER)
+        {
+            //
+            try
+        {
+            insan=Integer.parseInt(txtinsan.getText().trim()); 
+            if(sayiVarMi(bilgisayar)>1 && insan==1&&(Arrays.asList(tutulanlar).indexOf(1)==-1))
+            {
+                JOptionPane.showMessageDialog(this, "1 sayısını tutmak için daha erken");
+                return;
+            }
+            if((bilgisayar%insan==0 || insan%bilgisayar==0)&&(Arrays.asList(tutulanlar).indexOf(insan)==-1)&&(insan>0)&&(insan<101))
+            {
+                tutulanlar[sira]=insan;
+                lmi.addElement(insan);
+                sira++;  
+                txtinsan.setText("");
+                bilgisayarSayiTutsun();
+                return;
+                
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "lütfen kurallara uygun sayılar giriniz:");
+            }
+               
+        }
+        catch(Exception hata)
+        {
+            JOptionPane.showMessageDialog(this, "lütfen sadece sayı giriniz:");
+            return;
+        }
+            //
+        }
+           
+    } 
